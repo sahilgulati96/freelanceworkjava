@@ -1,0 +1,90 @@
+package hello;
+
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.Scanner;
+
+import com.opencsv.CSVReader;
+import com.opencsv.exceptions.CsvValidationException;
+
+public class mainClass {
+
+	public static void main(String[] args) throws CsvValidationException, IOException {
+
+		mainClass mc = new mainClass();
+		File testcsv = new File("Test.csv");
+		File comparecsv = new File("test-compare.csv");
+		mc.differentline(testcsv, comparecsv);
+
+	}
+
+	public void differentline(File testcsv, File comparecsv) throws CsvValidationException, IOException {
+		// TODO Auto-generated method stub
+
+		FileReader testcsvfilereader = new FileReader(testcsv);
+		CSVReader testcsvReader = new CSVReader(testcsvfilereader);
+
+		FileReader comparefilereader = new FileReader(comparecsv);
+		CSVReader comparecsvReader = new CSVReader(comparefilereader);
+
+		Scanner sc = new Scanner(testcsv);
+		int count = 0;
+		while (sc.hasNextLine()) {
+			sc.nextLine();
+			count++;
+		}
+		sc.close();
+
+		String[] header = null;
+		int x = 1;
+		int[] diffRows = new int[count];
+		int temp = 0;
+		while (true) {
+
+			String[] data = testcsvReader.readNext();
+			String[] comparedata = comparecsvReader.readNext();
+			if (x == 1) {
+				header = data;
+			}
+			if (data == null) {
+				// System.out.println("array is empty");
+				break;
+			}
+			if (Arrays.deepEquals(data, comparedata)) {
+
+				// Print statement if arrays are equal
+				// System.out.println("Same");
+			} else {
+
+				// Print statement if arrays are equal
+				// System.out.println("Not same");
+				diffRows[temp] = x;
+				temp++;
+				// System.out.println("Found Difference for Row: " + x);
+
+				if (data.length != comparedata.length) {
+					System.out.println("Length of line is not same for Row: " + x);
+				}
+
+				for (int i = 0; i < data.length; i++) {
+					String tempdata = data[i];
+					String comparetemp = comparedata[i];
+					if (tempdata.equalsIgnoreCase(comparetemp)) {
+					} else {
+						System.out.println("Value of :" + tempdata + " is different from " + comparetemp + " for Row "
+								+ x + " And column name " + header[i]);
+					}
+				}
+			}
+			x++;
+			// System.out.println(x);
+
+		}
+		// System.out.println("Success");
+		testcsvReader.close();
+		comparecsvReader.close();
+		
+	}
+}
