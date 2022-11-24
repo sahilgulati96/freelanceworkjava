@@ -1,0 +1,52 @@
+package hello;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+
+import com.opencsv.CSVReader;
+import com.opencsv.exceptions.CsvValidationException;
+
+public class mainClass {
+
+	public static void main(String[] args) throws CsvValidationException, IOException {
+		// TODO Auto-generated method stub
+		File testcsv = new File("Test.csv");
+		FileReader testcsvfilereader = new FileReader(testcsv);
+		CSVReader testcsvReader = new CSVReader(testcsvfilereader);
+
+		File comparecsv = new File("test-compare.csv");
+		FileReader comparefilereader = new FileReader(comparecsv);
+		CSVReader comparecsvReader = new CSVReader(comparefilereader);
+		
+		int[] diffRows = {};
+		int x = 0;
+		int totalDifferentValue=0;
+		while (true) {
+			String[] data = testcsvReader.readNext();
+			String[] comparedata = comparecsvReader.readNext();
+			if (data == null || comparedata == null) {
+				break;
+			}
+			if (Arrays.deepEquals(data, comparedata)) {
+
+			} else {
+
+				diffRows[totalDifferentValue]=x;
+				totalDifferentValue++;
+				System.out.println(totalDifferentValue);
+			}
+			x++;
+			comparecsvReader.close();
+			testcsvReader.close();
+
+		}
+		
+		for(int i=0;i<diffRows.length;i++) {
+			System.out.println(diffRows[i]);
+		}
+	}
+}

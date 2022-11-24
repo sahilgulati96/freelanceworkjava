@@ -1,0 +1,55 @@
+package hello;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.Arrays;
+
+import com.opencsv.CSVReader;
+import com.opencsv.exceptions.CsvValidationException;
+
+public class mainClass {
+
+	public static void main(String[] args) throws CsvValidationException, IOException {
+		// TODO Auto-generated method stub
+		File testcsv = new File("Test.csv");
+		FileReader testcsvfilereader = new FileReader(testcsv);
+		CSVReader testcsvReader = new CSVReader(testcsvfilereader);
+		
+		
+
+		File comparecsv = new File("test-compare.csv");
+		FileReader comparefilereader = new FileReader(comparecsv);
+		CSVReader comparecsvReader = new CSVReader(comparefilereader);
+		
+		int x=0;
+		int [] diffRows = new int[1000];
+		int temp =0;
+		while(true) {
+
+				String[] data = testcsvReader.readNext();
+				String[] comparedata = comparecsvReader.readNext();
+				if (data == null) {
+					  System.out.println("array is empty");
+					  break;
+					}
+				if (Arrays.deepEquals(data, comparedata)){
+
+					// Print statement if arrays are equal
+					System.out.println("Same");
+				}else {
+
+					// Print statement if arrays are equal
+					System.out.println("Not same");
+					diffRows[temp]=x;
+					temp++;
+			}
+				x++;
+				System.out.println(x);
+			
+		}
+	}
+}
+		
+		
